@@ -1,0 +1,28 @@
+/*Append List at tail*/
+
+app([],X,X).
+app([H|T], X, [H|L]):- app(T,X,L).
+
+/*Delete the First Element From List*/
+
+fdel([_|T], T).
+
+/*Delete the Last Element From List*/
+
+ldel([_],[]).
+ldel([H|T], [H|T1]):- ldel(T,T1).
+
+/*Write a Prolog Program to delete a given element from a list. */
+
+del(_,[],[]).
+del(X,[X|T],NT):- del(X,T,NT).
+del(X,[H|T],[H|NT]):- X\==H, del(X,T,NT).
+
+/*Write a Prolog Program to delete the occurrences of all duplicate elements from a list. */
+
+member(X,[X|_]) :- !.
+member(X,[_|T]) :- member(X,T).
+rem_dupdel(A,B) :- rem_dupdel(A, B, []).
+rem_dupdel([],[],_).
+rem_dupdel([H|T],[H|O],R) :- not(member(H,R)), rem_dupdel(T,O, [H|R]).
+rem_dupdel([H|T],O, R) :- member(H,R), rem_dupdel(T,O,R).

@@ -1,0 +1,34 @@
+
+family(
+person(tom,fox,dob(7,may,1960),works(bbc,15200)),
+person(ann,fox,dob(9,may,1961),unemployed),
+[person(pat,fox,dob(5,may,1983),unemployed),
+person(jim,fox,dob(5,may,1983),unemployed)]).
+
+husband(X):- family(X,_,).
+wife(X):- family(_,X,).
+child(X):- family(_,_,Children), member(X, Children).
+exists(Persons):- husband(Persons); wife(Persons); child(Persons).
+dateofbirth(person(,,Date,_), Date).
+salary(person(_,_,_,works(,S)),S).
+salary(person(_,_,_,unemployed),0).
+
+/* Find the names of all the people in the database*/
+ques1(FirstName, LastName):- exists(person(FirstName, LastName, _, _)). 
+
+/* Find all children born in 2000*/
+ques2(FirstName, LastName):- child(person(FirstName, LastName, date(,,2000),_)).
+
+/* Find all employed wife*/
+ques3(FirstName, LastName):- wife(person(FirstName, LastName, _, works(,_))).
+
+/* Find the names of unemployed people who were born before 1973*/
+ques4(FirstName, LastName):- exists(person(FirstName, LastName, date(_,_,Year), unemployed)), Year<1973.
+
+/* Find people born before 1960 whose salary is less than 8000*/
+ques5(FirstName, LastName):- exists(person(FirstName, LastName, date(_,_,Year), works(_,Sal))), Year<1960, Sal<8000. 
+
+/* Find the names of families with at least three children*/
+ques6(LastName):- family(person(_,LastName,_,),_,[_,_,|_]).
+
+

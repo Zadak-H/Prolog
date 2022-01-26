@@ -1,0 +1,42 @@
+/*Merge two sorted list*/
+
+merge([],[],[]).
+merge([A],[],[A]).
+merge([],[B],[B]).
+merge([H1|L1],[H2|L2],[H1|L]):-
+	H1 =< H2, merge(L1,[H2|L2],L).
+merge([H1|L1],[H2|L2],[H2|L]):-
+	H1 > H2, merge([H1|L1],L2,L).
+	
+/*Write a Program for Bubble Sort*/
+
+bubble_sort([],Sorted) :- 
+	Sorted = [].
+bubble_sort([X], Sorted) :- 
+	Sorted = [X].
+bubble_sort(Terms, Sorted) :-
+	bubble(Terms, Terms), Sorted = Terms ;
+	bubble(Terms, Partials), bubble_sort(Partials, Sorted).
+
+bubble([], Bubbled) :- Bubbled = [].
+bubble([X], Bubbled) :- Bubbled = [X].
+bubble([X,Y|Terms], [Y|Bubbled]) :-
+	Y < X, bubble([X|Terms], Bubbled).
+bubble([X,Y|Terms], [X|Bubbled]) :-
+	X =< Y, bubble([Y|Terms], Bubbled).
+	
+/* Quick sort */
+
+quicksort([],[]).
+quicksort([H|T],X):-
+	partition(H,T,Left,Right),
+	quicksort(Left,S1),
+	quicksort(Right,S2),
+	append(S1,[H|S2],X).
+
+partition(_,[],[],[]).
+partition(Pivot,[H|T],[H|Rest],RightSide):-
+	H =< Pivot,partition(Pivot,T,Rest,RightSide).
+
+partition(Pivot,[H|T],LeftSide,[H|Rest]):-
+	H > Pivot,partition(Pivot,T,LeftSide,Rest).
